@@ -10,9 +10,13 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::when(request('q'), function ($query) {
+            $query->where('title', 'like', '%'.request('q').'%');
+        })->get();
 
-        return view('posts.index', compact('posts'));
+        $postsAreEmpty = Post::count() === 0;
+
+        return view('posts.index', compact('posts', 'postsAreEmpty'));
     }
 
     public function create()
