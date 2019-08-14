@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Posts\StorePostRequest;
+use App\Http\Requests\Posts\UpdatePostRequest;
 use App\Post;
 
 class PostController extends Controller
@@ -18,17 +20,9 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function store()
+    public function store(StorePostRequest $request)
     {
-        request()->validate([
-            'title' => 'required|string|min:3',
-            'body' => 'required|string|min:5',
-        ]);
-
-        $post = new Post;
-        $post->title = request('title');
-        $post->body = request('body');
-        $post->save();
+        Post::create(request()->all());
 
         return redirect()->route('posts.index');
     }
@@ -38,16 +32,9 @@ class PostController extends Controller
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        request()->validate([
-            'title' => 'required|string|min:3',
-            'body' => 'required|string|min:5',
-        ]);
-
-        $post->title = request('title');
-        $post->body = request('body');
-        $post->save();
+        $post->update(request()->all());
 
         return redirect()->route('posts.index');
     }
