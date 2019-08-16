@@ -10,4 +10,11 @@ class Post extends Model
         'title',
         'body',
     ];
+
+    public function scopeToday($query)
+    {
+        return $query->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->whereDay('created_at', now()->day);
+    }
 }

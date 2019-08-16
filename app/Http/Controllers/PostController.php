@@ -16,7 +16,7 @@ class PostController extends Controller
             $query->orderBy('created_at', request('order_by'));
         }, function ($query) {
             $query->orderBy('created_at', 'desc');
-        })->get();
+        })->today()->get();
 
         $postsAreEmpty = Post::count() === 0;
 
