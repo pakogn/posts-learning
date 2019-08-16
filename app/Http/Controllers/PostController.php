@@ -12,6 +12,10 @@ class PostController extends Controller
     {
         $posts = Post::when(request('q'), function ($query) {
             $query->where('title', 'like', '%'.request('q').'%');
+        })->when(request('order_by'), function ($query) {
+            $query->orderBy('created_at', request('order_by'));
+        }, function ($query) {
+            $query->orderBy('created_at', 'desc');
         })->get();
 
         $postsAreEmpty = Post::count() === 0;

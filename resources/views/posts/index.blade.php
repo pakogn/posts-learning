@@ -9,7 +9,14 @@
         <form action="{{ route('posts.index') }}" method="GET">
             <label>Búsqueda</label>
             <br>
-            <input type="text" name="q" value="{{ old('q', request('q') ?? null) }}" required>
+            <input type="text" name="q" value="{{ old('q', request('q') ?? null) }}">
+            <br>
+            <label>Orden</label>
+            <br>
+            <select name="order_by">
+                <option value="desc" {{ old('order_by', request('order_by')) == 'desc' ? 'selected' : null }}>Más reciente</option>
+                <option value="asc" {{ old('order_by', request('order_by')) == 'asc' ? 'selected' : null }}>Más antiguo</option>
+            </select>
             <br>
             <button type="submit">Buscar</button>
             @if (request()->has('q'))
@@ -29,6 +36,8 @@
             @foreach ($posts as $post)
                 <li>
                     <a href="{{ route('posts.edit', $post) }}">{{ $post->title }}</a>
+                    <br>
+                    {{ $post->created_at }}
                     <form action="{{ route('posts.destroy', $post) }}" method="POST">
                         @method('DELETE')
                         @csrf
