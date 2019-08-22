@@ -4,9 +4,7 @@
     <h2>Posts</h2>
 
     @include('errors.list')
-    <form action="{{ route('posts.update', $post) }}" method="POST">
-        @method('PATCH')
-        @csrf
+    {{ Form::model($post, ['route' => ['posts.update', $post], 'method' => 'PATCH']) }}
         @include('posts.form', ['submitButtonText' => 'Actualizar'])
-    </form>
+    {{ Form::close() }}
 @endsection

@@ -4,8 +4,7 @@
     <h2>Posts</h2>
 
     @include('errors.list')
-    <form action="{{ route('posts.store') }}" method="POST">
-        @csrf
+    {{ Form::open(['route' => 'posts.store']) }}
         @include('posts.form', ['submitButtonText' => 'Guardar'])
-    </form>
+    {{ Form::close() }}
 @endsection

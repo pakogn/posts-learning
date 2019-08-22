@@ -1,10 +1,10 @@
-<label>Título</label>
+{{ Form::label('title', 'Título') }}
 <br>
-<input type="text" name="title" value="{{ old('title', $post->title ?? null) }}" required>
+{{ Form::text('title', null, ['required']) }}
 <br>
-<label>Contenido</label>
+{{ Form::label('body', 'Contenido') }}
 <br>
-<textarea name="body" required>{{ old('body', $post->body ?? null) }}</textarea>
+{{ Form::textarea('body', null, ['required']) }}
 <br>
-<button type="submit">{{ $submitButtonText }}</button>
+{{ Form::submit($submitButtonText) }}
 <a href="{{ route('posts.index') }}">Cancelar</a>
