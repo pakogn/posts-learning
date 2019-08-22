@@ -32,10 +32,12 @@
             <h3>No se encontraron resultados...</h3>
         @endif
     @else
-        <ul>
+        <ol>
             @foreach ($posts as $post)
                 <li>
                     <a href="{{ route('posts.edit', $post) }}">{{ $post->title }}</a>
+                    <br>
+                    <a href="{{ route('posts.show', $post) }}">Visualizar</a>
                     <br>
                     {{ $post->created_at }}
                     <form action="{{ route('posts.destroy', $post) }}" method="POST">
@@ -45,6 +47,7 @@
                     </form>
                 </li>
             @endforeach
-        </ul>
+        </ol>
+        {!! $posts->render() !!}
     @endif
 @endsection

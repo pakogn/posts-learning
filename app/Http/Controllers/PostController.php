@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\AgeMiddleware;
 use App\Http\Requests\Posts\StorePostRequest;
 use App\Http\Requests\Posts\UpdatePostRequest;
 use App\Post;
 
 class PostController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(AgeMiddleware::class)->only('show');
+    }
+
     public function index()
     {
         $posts = Post::when(request('q'), function ($query) {
@@ -16,11 +27,18 @@ class PostController extends Controller
             $query->orderBy('created_at', request('order_by'));
         }, function ($query) {
             $query->orderBy('created_at', 'desc');
-        })->today()->get();
+        })->today()->paginate(10);
+
+        $posts->appends(request()->all());
 
         $postsAreEmpty = Post::count() === 0;
 
         return view('posts.index', compact('posts', 'postsAreEmpty'));
+    }
+
+    public function show(Post $post)
+    {
+        return view('posts.show', compact('post'));
     }
 
     public function create()

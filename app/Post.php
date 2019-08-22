@@ -9,6 +9,7 @@ class Post extends Model
     protected $fillable = [
         'title',
         'body',
+        'is_for_kids',
     ];
 
     public function scopeToday($query)

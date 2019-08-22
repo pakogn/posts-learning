@@ -11,7 +11,8 @@ $factory->define(Post::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
         'body' => $faker->paragraph,
-        'created_at' => $dateTime,
-        'updated_at' => $dateTime,
+        'is_for_kids' => $faker->boolean,
+        // 'created_at' => $dateTime,
+        // 'updated_at' => $dateTime,
     ];
 });
