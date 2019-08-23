@@ -83,10 +83,12 @@
                 <div class="title m-b-md">
                     Adrián
                 </div>
-
-                <div class="links">
-                    <a href="{{ route('posts.index') }}">Posts</a>
-                </div>
+                
+                @auth
+                    <div class="links">
+                        <a href="{{ route('posts.index') }}">Posts</a>
+                    </div>
+                @endauth
             </div>
         </div>
     </body>

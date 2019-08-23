@@ -6,6 +6,7 @@ use App\Http\Middleware\AgeMiddleware;
 use App\Http\Requests\Posts\StorePostRequest;
 use App\Http\Requests\Posts\UpdatePostRequest;
 use App\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -21,7 +22,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::when(request('q'), function ($query) {
+        $posts = Auth::user()->posts()->when(request('q'), function ($query) {
             $query->where('title', 'like', '%'.request('q').'%');
         })->when(request('order_by'), function ($query) {
             $query->orderBy('created_at', request('order_by'));
@@ -31,7 +32,7 @@ class PostController extends Controller
 
         $posts->appends(request()->all());
 
-        $postsAreEmpty = Post::count() === 0;
+        $postsAreEmpty = Auth::user()->posts()->count() === 0;
 
         return view('posts.index', compact('posts', 'postsAreEmpty'));
     }
@@ -48,7 +49,7 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
-        Post::create(request()->all());
+        Auth::user()->posts()->create(request()->all());
 
         return redirect()->route('posts.index');
     }

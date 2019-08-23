@@ -12,6 +12,11 @@ class Post extends Model
         'is_for_kids',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function scopeToday($query)
     {
         return $query->whereYear('created_at', now()->year)
